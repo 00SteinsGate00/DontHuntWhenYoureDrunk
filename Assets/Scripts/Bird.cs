@@ -52,6 +52,12 @@ public class Bird : MonoBehaviour {
 			}
 		
 		}
+
+		// check if the bird is outside of the screen and delete it
+		Vector3 sceneBounds = Camera.main.ScreenToWorldPoint (new Vector3 (Screen.width, Screen.height, 0));
+		if ((this.transform.position.x > sceneBounds.x + sceneBounds.x / 2) || (this.transform.position.x < -sceneBounds.x - sceneBounds.x / 2) || this.transform.position.y < -sceneBounds.y - sceneBounds.y / 2) {
+			Destroy (this.gameObject);
+		}
 	}
 
 	public void setVelocity (float velocity) {
