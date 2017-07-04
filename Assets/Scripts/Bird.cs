@@ -12,6 +12,9 @@ public class Bird : MonoBehaviour {
 	// Ammunition Script
 	public Ammunition ammunition;
 
+	// Score Script
+	private Score score;
+
 	// Animator
 	private Animator animator;
 	// Rigid Body 2D for gravity
@@ -27,6 +30,8 @@ public class Bird : MonoBehaviour {
 
 		// get the ammunition script
 		this.ammunition = GameObject.Find ("Ammunition").GetComponent<Ammunition> ();
+		// get the score script
+		this.score      = GameObject.Find("Score").GetComponent<Score>();
 	}
 	
 	// Update is called once per frame
@@ -48,6 +53,8 @@ public class Bird : MonoBehaviour {
 			if (mousePosition.x > objectPosition.x - size.x/2 && mousePosition.x < objectPosition.x + size.x/2) {
 				if (mousePosition.y > objectPosition.y - size.y/2 && mousePosition.y < objectPosition.y + size.y/2) {
 					this.rigidBody.simulated = true;
+					// increase the point proportional to the velocity
+					this.score.increaseScore ((int)(10 * Mathf.Abs(this.velocity)));
 				}
 			}
 		
