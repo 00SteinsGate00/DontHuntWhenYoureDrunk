@@ -37,6 +37,7 @@ public class Bird : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		this.animator.SetInteger ("Direction", direction);
+		
 
 		Vector3 movement = new Vector3 (1.0f, 0.0f, 0.0f);
 		this.transform.position += movement * this.velocity * Time.deltaTime;
@@ -52,9 +53,12 @@ public class Bird : MonoBehaviour {
 			// check if this bird was hit by the mouse
 			if (mousePosition.x > objectPosition.x - size.x/2 && mousePosition.x < objectPosition.x + size.x/2) {
 				if (mousePosition.y > objectPosition.y - size.y/2 && mousePosition.y < objectPosition.y + size.y/2) {
+					// set falling animation
+					this.animator.SetBool("Dead", true);
 					this.rigidBody.simulated = true;
 					// increase the point proportional to the velocity
 					this.score.increaseScore ((int)(10 * Mathf.Abs(this.velocity)));
+
 				}
 			}
 		
