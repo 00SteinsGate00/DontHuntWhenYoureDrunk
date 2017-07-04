@@ -25,9 +25,8 @@ public class Bird : MonoBehaviour {
 		this.rigidBody = this.GetComponent<Rigidbody2D> ();
 		this.camera = Camera.main;
 
-		// dummy values for now
-		this.direction = 1;
-		this.velocity = 5.0f;
+		// get the ammunition script
+		this.ammunition = GameObject.Find ("Ammunition").GetComponent<Ammunition> ();
 	}
 	
 	// Update is called once per frame
@@ -35,7 +34,7 @@ public class Bird : MonoBehaviour {
 		this.animator.SetInteger ("Direction", direction);
 
 		Vector3 movement = new Vector3 (1.0f, 0.0f, 0.0f);
-		this.transform.position += movement * velocity * Time.deltaTime;
+		this.transform.position += movement * this.velocity * Time.deltaTime;
 
 
 		// left click
@@ -53,10 +52,19 @@ public class Bird : MonoBehaviour {
 			}
 		
 		}
-
 	}
 
-	void setVelocity(float velocity){
+	public void setVelocity (float velocity) {
 		this.velocity = velocity;
+	}
+
+	public void setDirection (int direction) {
+		this.direction = direction;
+		if (direction == 0 && velocity > 0) {
+			velocity *= -1;
+		}
+		else if (direction == 1 && velocity < 0){
+			velocity *= -1;
+		}
 	}
 }
