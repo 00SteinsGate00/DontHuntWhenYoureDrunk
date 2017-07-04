@@ -6,9 +6,14 @@ public class Crosshair : MonoBehaviour {
 
 	Camera camera;
 
+	public Ammunition ammunition;
+
 	// Use this for initialization
 	void Start () {
 		this.camera = Camera.main;
+
+		// Reference to the Ammunition UI elements Script
+//		this.ammunition = this.GetComponent<Ammunition> ();
 	}
 	
 	// Update is called once per frame
@@ -18,5 +23,12 @@ public class Crosshair : MonoBehaviour {
 		// set the crosshair to the mouse position
 		// z: -3.0 to set it in front of everything
 		this.transform.position = new Vector3 (mousePosition.x, mousePosition.y, -3.0f);
+
+		if (Input.GetMouseButtonDown (0)) {
+			this.ammunition.reduceBulletCount ();
+		}
+		else if (Input.GetMouseButtonDown(1)) {
+			this.ammunition.reload ();
+		}
 	}
 }

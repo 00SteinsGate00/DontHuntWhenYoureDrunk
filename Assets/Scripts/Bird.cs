@@ -9,6 +9,9 @@ public class Bird : MonoBehaviour {
 	// velocity
 	private float velocity;
 
+	// Ammunition Script
+	public Ammunition ammunition;
+
 	// Animator
 	private Animator animator;
 	// Rigid Body 2D for gravity
@@ -36,7 +39,7 @@ public class Bird : MonoBehaviour {
 
 
 		// left click
-		if (Input.GetMouseButtonDown (0)) {
+		if (Input.GetMouseButtonDown (0) && this.ammunition.getBulletCount() > 0) {
 			Vector3 mousePosition  = camera.ScreenToWorldPoint(Input.mousePosition);
 			Vector3 objectPosition = this.transform.position;
 			Vector3 size		   = this.GetComponent<Renderer>().bounds.size;
