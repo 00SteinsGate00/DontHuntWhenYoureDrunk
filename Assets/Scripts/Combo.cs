@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Combo : MonoBehaviour {
 
-	private float originalDisplayTime = 2;
+	private float originalDisplayTime = 3;
 	private float displayTime = 2;
 	private float comboValue  = 0;
 
