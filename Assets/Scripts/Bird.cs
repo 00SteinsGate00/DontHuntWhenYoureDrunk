@@ -15,6 +15,8 @@ public class Bird : MonoBehaviour {
 	// Score Script
 	private Score score;
 
+	public Combo comboLabel;
+
 	// Animator
 	private Animator animator;
 	// Rigid Body 2D for gravity
@@ -59,6 +61,12 @@ public class Bird : MonoBehaviour {
 					// increase the point proportional to the velocity
 					this.score.increaseScore ((int)(10 * Mathf.Abs(this.velocity)));
 
+					// combo
+					GameManager.incCombo();
+					// mouse position in screen coordinates
+					Combo combo = Instantiate (this.comboLabel, Input.mousePosition, Quaternion.identity) as Combo;
+					combo.setComboValue (GameManager.combo);
+					combo.transform.SetParent (GameObject.Find("Canvas").transform);
 				}
 			}
 		
