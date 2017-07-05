@@ -27,50 +27,24 @@ public class Bird : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		this.animator = this.GetComponent<Animator> ();
-		this.rigidBody = this.GetComponent<Rigidbody2D> ();
+
 		this.camera = Camera.main;
 
+		this.rigidBody = this.GetComponent<Rigidbody2D> ();
 		// get the ammunition script
 		this.ammunition = GameObject.Find ("Ammunition").GetComponent<Ammunition> ();
 		// get the score script
 		this.score      = GameObject.Find("Score").GetComponent<Score>();
 	}
+
 	
 	// Update is called once per frame
 	void Update () {
 		this.animator.SetInteger ("Direction", direction);
-		
 
+		// movement
 		Vector3 movement = new Vector3 (1.0f, 0.0f, 0.0f);
 		this.transform.position += movement * this.velocity * Time.deltaTime;
-
-
-		// left click
-		if (Input.GetMouseButtonDown (0) && this.ammunition.getBulletCount() > 0) {
-			Vector3 mousePosition  = camera.ScreenToWorldPoint(Input.mousePosition);
-			Vector3 objectPosition = this.transform.position;
-			Vector3 size		   = this.GetComponent<Renderer>().bounds.size;
-
-
-			// check if this bird was hit by the mouse
-			if (mousePosition.x > objectPosition.x - size.x/2 && mousePosition.x < objectPosition.x + size.x/2) {
-				if (mousePosition.y > objectPosition.y - size.y/2 && mousePosition.y < objectPosition.y + size.y/2) {
-					// set falling animation
-					this.animator.SetBool("Dead", true);
-					this.rigidBody.simulated = true;
-					// increase the point proportional to the velocity
-					this.score.increaseScore ((int)(10 * Mathf.Abs(this.velocity)));
-
-					// combo
-					GameManager.incCombo();
-					// mouse position in screen coordinates
-					Combo combo = Instantiate (this.comboLabel, Input.mousePosition, Quaternion.identity) as Combo;
-					combo.setComboValue (GameManager.combo);
-					combo.transform.SetParent (GameObject.Find("Canvas").transform);
-				}
-			}
-		
-		}
 
 		// check if the bird is outside of the screen and delete it
 		Vector3 sceneBounds = Camera.main.ScreenToWorldPoint (new Vector3 (Screen.width, Screen.height, 0));
@@ -78,6 +52,7 @@ public class Bird : MonoBehaviour {
 			Destroy (this.gameObject);
 		}
 	}
+		
 
 	public void setVelocity (float velocity) {
 		this.velocity = velocity;
@@ -91,5 +66,35 @@ public class Bird : MonoBehaviour {
 		else if (direction == 1 && velocity < 0){
 			velocity *= -1;
 		}
+	}
+
+	public bool checkCollission(Vector3 mousePosition) {
+		Vector3 objectPosition = this.transform.position;
+		Vector3 size		   = this.GetComponent<Renderer>().bounds.size;
+
+		if (mousePosition.x > objectPosition.x - size.x / 2 && mousePosition.x < objectPosition.x + size.x / 2) {
+			if (mousePosition.y > objectPosition.y - size.y / 2 && mousePosition.y < objectPosition.y + size.y / 2) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void die() {
+		// Combo
+		GameManager.incCombo();
+		// mouse position in screen coordinates
+
+		if (GameManager.combo > 1) {
+			Combo combo = Instantiate (this.comboLabel, Camera.main.WorldToScreenPoint(this.transform.position), Quaternion.identity) as Combo;
+			combo.setComboValue (GameManager.combo);
+			combo.transform.SetParent (GameObject.Find("Canvas").transform);
+		}
+
+		// set falling animation
+		this.animator.SetBool("Dead", true);
+		this.rigidBody.simulated = true;
+		// increase the point proportional to the velocity
+		this.score.increaseScore ((int)(10 * Mathf.Abs(this.velocity)) * GameManager.combo);
 	}
 }

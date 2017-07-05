@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
-	public static int combo = 1;
+	public static int combo = 0;
 
 	// Use this for initialization
 	void Start () {
