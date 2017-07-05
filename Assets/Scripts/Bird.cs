@@ -9,6 +9,8 @@ public class Bird : MonoBehaviour {
 	// velocity
 	private float velocity;
 
+	private bool dead = false;
+
 	// Ammunition Script
 	public Ammunition ammunition;
 
@@ -69,9 +71,11 @@ public class Bird : MonoBehaviour {
 	}
 
 	public bool checkCollission(Vector3 mousePosition) {
+		if (this.dead) {
+			return false;
+		}
 		Vector3 objectPosition = this.transform.position;
 		Vector3 size		   = this.GetComponent<Renderer>().bounds.size;
-
 		if (mousePosition.x > objectPosition.x - size.x / 2 && mousePosition.x < objectPosition.x + size.x / 2) {
 			if (mousePosition.y > objectPosition.y - size.y / 2 && mousePosition.y < objectPosition.y + size.y / 2) {
 				return true;

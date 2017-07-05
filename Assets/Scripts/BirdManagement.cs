@@ -9,7 +9,7 @@ public class BirdManagement : MonoBehaviour {
 	private int birdTimer = 0;
 
 	public Bird birdPrefab;
-
+	public Ammunition ammunition;
 
 
 	// Use this for initialization
@@ -47,7 +47,7 @@ public class BirdManagement : MonoBehaviour {
 			}
 		}
 			
-		if (Input.GetMouseButtonDown (0)) {
+		if (Input.GetMouseButtonDown (0) && this.ammunition.getBulletCount() > 0) {
 			this.checkForCollissions ();
 		}
 
