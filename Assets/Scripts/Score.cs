@@ -6,12 +6,12 @@ using UnityEngine.UI;
 public class Score : MonoBehaviour {
 
 	private Text scoreLabel;
-	private int scoreCount;
+	public static int scoreCount;
 
 	// Use this for initialization
 	void Start () {
 		this.scoreLabel = this.GetComponent<Text> ();
-		this.scoreCount = 0;
+		scoreCount = 0;
 	}
 	
 	// Update is called once per frame
@@ -20,7 +20,7 @@ public class Score : MonoBehaviour {
 	}
 
 	public void increaseScore(int inc) {
-		this.scoreCount += inc;
-		this.scoreLabel.text = this.scoreCount.ToString ();
+		scoreCount += inc;
+		this.scoreLabel.text = scoreCount.ToString ();
 	}
 }
